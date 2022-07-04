@@ -4,6 +4,14 @@ const pizzaController = {
   // get all pizzas
   getAllPizza(req, res) {
     Pizza.find({})
+      .populate({
+        path: "comments",
+        select: "-__v",
+      })
+      .select("-__v")
+      // use .sort({ _id: -1 }) to sort in DESC order by the _id value.
+      // This gets the newest pizza because a timestamp value is hidden somewhere inside the MongoDB ObjectId.
+      .sort({ _id: -1 })
       .then((dbPizzaData) => res.json(dbPizzaData))
       .catch((err) => {
         console.log(err);
@@ -14,6 +22,11 @@ const pizzaController = {
   //get pizza by id
   getPizzaById({ params }, res) {
     Pizza.findOne({ _id: params.id })
+      .populate({
+        path: "comments",
+        select: "-__v",
+      })
+      .select("-__v")
       .then((dbPizzaData) => {
         // if no pizza is found, send 404
         if (!dbPizzaData) {
@@ -29,12 +42,12 @@ const pizzaController = {
   // create pizza
   createPizza({ body }, res) {
     Pizza.create(body)
-      .then(dbPizzaData => res.json(dbPizzaData))
-      .catch(err => res.status(400).json(err));
+      .then((dbPizzaData) => res.json(dbPizzaData))
+      .catch((err) => res.status(400).json(err));
   },
 
   //update pizza by id
-  //With Mongoose, the "where" clause is used first, 
+  //With Mongoose, the "where" clause is used first,
   //then the updated data, then options for how the data should be returned.
   updatePizza({ params, body }, res) {
     Pizza.findOneAndUpdate({ _id: params.id }, body, { new: true })
