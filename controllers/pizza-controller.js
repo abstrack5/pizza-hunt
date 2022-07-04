@@ -26,11 +26,11 @@ const pizzaController = {
       .catch((err) => res.status(400).json(err));
   },
 
-  //create pizza
+  // create pizza
   createPizza({ body }, res) {
-    Pizza.create({ body })
-      .then((dbPizzaData) => res.json(dbPizzaData))
-      .catch((err) => res.status(400).json(err));
+    Pizza.create(body)
+      .then(dbPizzaData => res.json(dbPizzaData))
+      .catch(err => res.status(400).json(err));
   },
 
   //update pizza by id
