@@ -34,6 +34,8 @@ const pizzaController = {
   },
 
   //update pizza by id
+  //With Mongoose, the "where" clause is used first, 
+  //then the updated data, then options for how the data should be returned.
   updatePizza({ params, body }, res) {
     Pizza.findOneAndUpdate({ _id: params.id }, body, { new: true })
       //f we don't set that third parameter, { new: true },
