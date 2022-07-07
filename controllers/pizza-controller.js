@@ -50,7 +50,9 @@ const pizzaController = {
   //With Mongoose, the "where" clause is used first,
   //then the updated data, then options for how the data should be returned.
   updatePizza({ params, body }, res) {
-    Pizza.findOneAndUpdate({ _id: params.id }, body, { new: true })
+    // Notice the new option in place, runValidators: true? We need to include this explicit 
+    // setting when updating data so that it knows to validate any new information.
+    Pizza.findOneAndUpdate({ _id: params.id }, body, { new: true, runValidators: true })
       //f we don't set that third parameter, { new: true },
       // it will return the original document. By setting the parameter to true,
       // we're instructing Mongoose to return the new version of the document.
